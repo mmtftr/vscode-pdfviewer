@@ -1,10 +1,14 @@
 import * as vscode from 'vscode';
 import { PdfCustomProvider } from './pdfProvider';
+import { ReadingPositions } from './readingPositions';
 
 export function activate(context: vscode.ExtensionContext): void {
   const extensionRoot = vscode.Uri.file(context.extensionPath);
   // Register our custom editor provider
-  const provider = new PdfCustomProvider(extensionRoot);
+  const provider = new PdfCustomProvider(
+    extensionRoot,
+    new ReadingPositions(context.globalState)
+  );
   context.subscriptions.push(
     vscode.window.registerCustomEditorProvider(
       PdfCustomProvider.viewType,
@@ -16,6 +20,11 @@ export function activate(context: vscode.ExtensionContext): void {
         },
       }
     )
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand('pdf.print', () => {
+      provider.activePreview?.print();
+    })
   );
 }
 

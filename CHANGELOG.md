@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.3.0 (2026/09/24)
+
+- Update PDF.js to 6.3.289 (legacy build); requires VS Code 1.96 or later
+- Ctrl/Cmd+P and Ctrl/Cmd+Shift+P reach VS Code (Quick Open, Command Palette) instead of printing
+- Print from the toolbar or the new `PDF: Print` command
+- Reload changed files immediately, including files outside the workspace, files with glob characters in their names, and files replaced by delete + recreate or rename
+- Keep the preview open when the file is deleted: the last loaded version stays visible and reloads when the file is created again
+- Retry loading on the next change when the file cannot be read
+- Keep the reading position (page, zoom, scroll) across rebuilds, and restore it when a file is reopened; the `pdf-preview.default.*` settings apply to files opened for the first time
+- Load standard fonts, which were previously missing
+
 ## 1.2.2 (2022/12/23)
 
 - Fix about rendering Unicode characters

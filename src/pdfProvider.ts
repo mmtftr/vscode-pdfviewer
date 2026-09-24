@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { PdfPreview } from './pdfPreview';
+import { ReadingPositions } from './readingPositions';
 
 export class PdfCustomProvider implements vscode.CustomReadonlyEditorProvider {
   public static readonly viewType = 'pdf.preview';
@@ -7,7 +8,10 @@ export class PdfCustomProvider implements vscode.CustomReadonlyEditorProvider {
   private readonly _previews = new Set<PdfPreview>();
   private _activePreview: PdfPreview | undefined;
 
-  constructor(private readonly extensionRoot: vscode.Uri) {}
+  constructor(
+    private readonly extensionRoot: vscode.Uri,
+    private readonly positions: ReadingPositions
+  ) {}
 
   public openCustomDocument(uri: vscode.Uri): vscode.CustomDocument {
     return { uri, dispose: (): void => {} };
@@ -20,7 +24,8 @@ export class PdfCustomProvider implements vscode.CustomReadonlyEditorProvider {
     const preview = new PdfPreview(
       this.extensionRoot,
       document.uri,
-      webviewEditor
+      webviewEditor,
+      this.positions
     );
     this._previews.add(preview);
     this.setActivePreview(preview);
